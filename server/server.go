@@ -1,11 +1,13 @@
 package server
 
-import "net/http"
+import (
+	"github.com/gorilla/mux"
+	"github.com/p-pawel/go-challenge/controllers"
+)
 
-type RocketServer struct {
-
+func SetupRouter() *mux.Router {
+	router := mux.NewRouter().StrictSlash(true)
+	router.HandleFunc("/booking", controllers.GetBookings).Methods("GET", "POST")
+	return router
 }
 
-func (p *RocketServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-
-}

@@ -7,10 +7,9 @@ import (
 	"testing"
 )
 
-
 func TestServer(t *testing.T) {
 
-	server := &RocketServer{}
+	router := SetupRouter()
 	t.Run("Server should be available", func(t *testing.T) {
 
 		// given
@@ -18,11 +17,24 @@ func TestServer(t *testing.T) {
 		request, _ := http.NewRequest(http.MethodGet, "/", nil)
 
 		// when
-		server.ServeHTTP(response, request)
+		router.ServeHTTP(response, request)
+
+		// then
+		assert.Equal(t, http.StatusNotFound, response.Code)
+	})
+
+	t.Run("Should get bookings (empty array as none created)", func(t *testing.T) {
+
+		// given
+		request, _ := http.NewRequest(http.MethodGet, "/booking", nil)
+		response := httptest.NewRecorder()
+
+		// when
+		router.ServeHTTP(response, request)
 
 		// then
 		assert.Equal(t, http.StatusOK, response.Code)
+		assert.Equal(t, "[]\n", response.Body.String())
 	})
 
-	
 }

@@ -2,17 +2,25 @@ package main
 
 import (
 	"github.com/p-pawel/go-challenge/server"
-
 	"log"
 	"net/http"
+	"os"
 )
+
 
 
 func main() {
 
-	rocketServer := &server.RocketServer{}
-	if err := http.ListenAndServe(":3000", rocketServer); err != nil {
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "3000"
+	}
+
+	router := server.SetupRouter()
+
+	if err := http.ListenAndServe(":"+port, router); err != nil {
 		log.Fatalf("could not listen on port 3000 %v", err)
 	}
 }
+
 
