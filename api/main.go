@@ -18,8 +18,10 @@ func main() {
 
 	router := server.SetupRouter()
 
-	if err := http.ListenAndServe(":"+port, router); err != nil {
+	if err := http.ListenAndServe(":"+port, server.LogRequest(router)); err != nil {
 		log.Fatalf("could not listen on port 3000 %v", err)
+	} else {
+		log.Println("API server is up")
 	}
 }
 
