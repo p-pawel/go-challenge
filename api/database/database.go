@@ -11,7 +11,7 @@ var DB *gorm.DB
 var err error
 
 func ConnectDB() {
-	connectionParams := "user=postgres password=postgres sslmode=disable host=127.0.0.1"
+	connectionParams := "user=postgres password=postgres sslmode=disable host=db"
 	for i := 0; i < 1; i++ {
 		DB, err = gorm.Open("postgres", connectionParams)
 		if err == nil {
