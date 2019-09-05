@@ -1,6 +1,9 @@
 package server
 
 import (
+	"github.com/DATA-DOG/go-sqlmock"
+	"github.com/jinzhu/gorm"
+	"github.com/p-pawel/go-challenge/database"
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
@@ -9,7 +12,11 @@ import (
 
 func TestServer(t *testing.T) {
 
+	_, _, _ = sqlmock.NewWithDSN("sqlmock_db_0")
+	database.DB, _ = gorm.Open("sqlmock", "sqlmock_db_0")
+
 	router := SetupRouter()
+
 	t.Run("Server should be available", func(t *testing.T) {
 
 		// given

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/p-pawel/go-challenge/database"
 	"github.com/p-pawel/go-challenge/server"
 	"log"
 	"net/http"
@@ -8,8 +9,10 @@ import (
 )
 
 
-
 func main() {
+
+	database.ConnectDB()
+	database.InitDB()
 
 	port := os.Getenv("PORT")
 	if port == "" {
