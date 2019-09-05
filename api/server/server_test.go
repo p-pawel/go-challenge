@@ -5,8 +5,10 @@ import (
 	"github.com/jinzhu/gorm"
 	"github.com/p-pawel/go-challenge/database"
 	"github.com/stretchr/testify/assert"
+	"log"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 )
 
@@ -42,6 +44,21 @@ func TestServer(t *testing.T) {
 		// then
 		assert.Equal(t, http.StatusOK, response.Code)
 		assert.Equal(t, "[]\n", response.Body.String())
+	})
+
+	t.Run("Should post booking (no validation so far)", func(t *testing.T) {
+
+		// given
+		request, _ := http.NewRequest(http.MethodPost, "/booking", strings.NewReader("{ }"))
+		response := httptest.NewRecorder()
+
+		// when
+		router.ServeHTTP(response, request)
+		log.Println(response)
+
+		// then
+		assert.Equal(t, http.StatusOK, response.Code)
+		assert.NotNil(t, response.Body.String())
 	})
 
 }

@@ -7,17 +7,6 @@ import (
 	"time"
 )
 
-type Booking struct {
-	gorm.Model
-	FirstName  string
-	LastName string
-	Gender string
-	Birthday string
-	LaunchpadId uint
-	DestinationId uint
-	LaunchDate string
-}
-
 var DB *gorm.DB
 var err error
 

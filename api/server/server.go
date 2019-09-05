@@ -9,7 +9,8 @@ import (
 
 func SetupRouter() *mux.Router {
 	router := mux.NewRouter().StrictSlash(true)
-	router.HandleFunc("/booking", controllers.GetBookings).Methods("GET", "POST")
+	router.HandleFunc("/booking", controllers.GetBookings).Methods("GET")
+	router.HandleFunc("/booking", controllers.PostBooking).Methods("POST")
 	return router
 }
 
