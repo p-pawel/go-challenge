@@ -1,6 +1,17 @@
 version: '3'
 services:
 
+  db:
+    image: postgres
+    volumes:
+      - ./db/pgdata:/pgdata
+    ports:
+      - "5432:5432"
+    environment:
+      PG_USER: postgres
+      PG_PASSWORD: postgres
+      PGDATA: /pgdata
+
   api:
     build:
       context: ./api
@@ -9,3 +20,5 @@ services:
     image: go-challenge
     ports:
       - "3000:3000"
+    links:
+      - db
