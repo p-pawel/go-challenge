@@ -2,10 +2,12 @@ package controllers
 
 import (
 	"encoding/json"
+	"github.com/gorilla/mux"
 	"github.com/p-pawel/go-challenge/database"
 	"github.com/p-pawel/go-challenge/service"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 )
 
 func GetBookings(w http.ResponseWriter, r *http.Request) {
@@ -26,7 +28,6 @@ func PostBooking(w http.ResponseWriter, r *http.Request) {
 		err := json.Unmarshal(reqBody, &newBooking)
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
-
 			return
 		}
 	}
@@ -45,4 +46,24 @@ func PostBooking(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Add("Content-Type", "application/json")
 	_ = json.NewEncoder(w).Encode(newBooking)
+}
+
+func DeleteBooking(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+
+	id, parseErr := strconv.ParseUint(vars["id"], 10, 64)
+
+	if parseErr != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	result := service.DeleteBooking(uint(id))
+	if result == false {
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+
+	w.WriteHeader(http.StatusAccepted)
+	return
 }

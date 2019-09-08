@@ -11,6 +11,7 @@ func SetupRouter() *mux.Router {
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/booking", controllers.GetBookings).Methods("GET")
 	router.HandleFunc("/booking", controllers.PostBooking).Methods("POST")
+	router.HandleFunc("/booking/{id}", controllers.DeleteBooking).Methods("DELETE")
 	return router
 }
 

@@ -36,3 +36,8 @@ func TryToCreateBooking(newBooking *database.Booking) []string {
 	database.DB.Create(&newBooking)
 	return nil
 }
+
+func DeleteBooking(id uint) bool {
+	db := database.DB.Delete(&database.Booking{}, "id = ?", id)
+	return db.RowsAffected > 0
+}
