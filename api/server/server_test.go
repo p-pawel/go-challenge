@@ -49,7 +49,7 @@ func TestServer(t *testing.T) {
 	t.Run("Should post booking (no validation so far)", func(t *testing.T) {
 
 		// given
-		request, _ := http.NewRequest(http.MethodPost, "/booking", strings.NewReader("{ }"))
+		request, _ := http.NewRequest(http.MethodPost, "/booking", strings.NewReader(`{"LaunchDate":"2019-09-08T21:40:00+02:00","DestinationId": 2, "LaunchpadId": 5 }`))
 		response := httptest.NewRecorder()
 
 		// when

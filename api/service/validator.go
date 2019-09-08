@@ -54,6 +54,10 @@ func (v *overlapWithSpaceXValidator) isValid(booking database.Booking) string {
 	launches, _ := api.GetUpcomingLaunches()
 	launchpad := FindOneLaunchpad(booking.LaunchpadId)
 
+	if launchpad == nil {
+		return ""
+	}
+
 	for _, l := range launches {
 		if l.LaunchSite.SiteId != (*launchpad).SpacexSiteId {
 			continue

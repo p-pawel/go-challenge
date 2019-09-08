@@ -1,7 +1,7 @@
 # go-challenge
 
 
-This project contains a solution to one recruitment challenge. Out of consideration of the possible parallel recruitment process I am not quoting requirements. 
+This project contains a solution to one recruitment challenge. Out of consideration of the possible parallel recruitment processes I am not quoting requirements. 
 
 ## Execution
 
@@ -60,9 +60,9 @@ Request:
 	"FirstName": "John",
 	"LastName": "Doe",
 	"Gender": "M",
-	"LaunchDate": "2019-10-17T21:10:00+02:00",
-	"LaunchpadId": 5,
-	"DestinationId": 6
+    "LaunchDate": "2019-09-08T21:40:00+02:00",
+    "LaunchpadId": 5,
+    "DestinationId": 2
 }
 ```
 

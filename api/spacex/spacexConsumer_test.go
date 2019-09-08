@@ -19,10 +19,9 @@ func TestSpaceXConsumerAPI(t *testing.T) {
 		}))
 		defer server.Close()
 		api := API{server.Client(), server.URL}
-		date, _ := time.Parse("2006-01-02 15:04:05", "2019-09-08 12:22:00")
 
 		// when
-		launches, _ := api.GetUpcomingLaunches(date, "ccafs_slc_40")
+		launches, _ := api.GetUpcomingLaunches()
 
 		// then
 		assert.Equal(t, time.Date(2019, 10, 17, 0, 0, 0, 0, time.FixedZone("", 0)).Unix(), launches[0].LaunchDateUTC.Unix())
