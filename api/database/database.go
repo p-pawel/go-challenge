@@ -4,6 +4,7 @@ import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"log"
+	"os"
 	"time"
 )
 
@@ -11,7 +12,10 @@ var DB *gorm.DB
 var err error
 
 func ConnectDB() {
-	connectionParams := "user=postgres password=postgres sslmode=disable host=db"
+	pgUser := getEnvVar("PG_USER")
+	pgPass := getEnvVar("PG_PASSWORD")
+	pgHost := getEnvVar("PG_HOST")
+	connectionParams := "user=" + pgUser + " password=" + pgPass + " sslmode=disable host=" + pgHost
 	for i := 0; i < 1; i++ {
 		DB, err = gorm.Open("postgres", connectionParams)
 		if err == nil {
@@ -25,10 +29,17 @@ func ConnectDB() {
 
 	log.Printf("Connected to database\n")
 
-
 }
 
-func InitDB() {
+func getEnvVar(name string) string {
+	value := os.Getenv(name)
+	if value == "" {
+		log.Fatalf("Environmental variable not set: %s", name)
+	}
+	return value
+}
+
+func CreateSchema() {
 
 	dbName := "rocket"
 	DB.Exec("CREATE DATABASE " + dbName)
@@ -37,4 +48,23 @@ func InitDB() {
 		DB.CreateTable(&Booking{})
 	}
 
+	if !DB.HasTable(&Destination{}) {
+		DB.CreateTable(&Destination{})
+
+		createDestination("Mars")
+		createDestination("Moon")
+		createDestination("Pluto")
+		createDestination("Asteroid Belt")
+		createDestination("Europa")
+		createDestination("Titan")
+		createDestination("Ganymede")
+	}
+
+}
+
+func createDestination(name string) {
+	var newDestination Destination
+	newDestination.Name = name
+	DB.Create(&newDestination)
+	//return nil
 }

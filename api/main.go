@@ -12,7 +12,7 @@ import (
 func main() {
 
 	database.ConnectDB()
-	database.InitDB()
+	database.CreateSchema()
 
 	port := os.Getenv("PORT")
 	if port == "" {
