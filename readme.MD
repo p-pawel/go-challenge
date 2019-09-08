@@ -57,9 +57,9 @@ POST http://localhost:3000/booking
 Request:
 ```
 {
-	"FirstName": "John",
-	"LastName": "Doe",
-	"Gender": "M",
+    "FirstName": "John",
+    "LastName": "Doe",
+    "Gender": "M",
     "LaunchDate": "2019-09-08T21:40:00+02:00",
     "LaunchpadId": 5,
     "DestinationId": 2
