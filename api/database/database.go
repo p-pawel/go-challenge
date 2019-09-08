@@ -39,14 +39,13 @@ func getEnvVar(name string) string {
 	return value
 }
 
+
 func CreateSchema() {
 
 	dbName := "rocket"
 	DB.Exec("CREATE DATABASE " + dbName)
 
-	if !DB.HasTable(&Booking{}) {
-		DB.CreateTable(&Booking{})
-	}
+	//DB.DropTableIfExists(&Destination{}, &Launchpad{}, &Booking{})
 
 	if !DB.HasTable(&Destination{}) {
 		DB.CreateTable(&Destination{})
@@ -60,11 +59,30 @@ func CreateSchema() {
 		createDestination("Ganymede")
 	}
 
+	if !DB.HasTable(&Launchpad{}) {
+		DB.CreateTable(&Launchpad{})
+
+		DB.Create(&Launchpad{Name: "Le Centre Spatial Guyanais"})
+		DB.Create(&Launchpad{Name: "Космодро́м Байкону́р"})
+		DB.Create(&Launchpad{Name: "Vandenberg 3W", SpacexSiteId: "vafb_slc_3w"})
+		DB.Create(&Launchpad{Name: "Vandenberg 4E", SpacexSiteId: "vafb_slc_4e"})
+		DB.Create(&Launchpad{Name: "Cape Canaveral Historic 39A", SpacexSiteId: "ccafs_slc_40"})
+		DB.Create(&Launchpad{Name: "Cape Canaveral", SpacexSiteId: "ccafs_slc_40"})
+		DB.Create(&Launchpad{Name: "Kwajalein Atoll", SpacexSiteId: "kwajalein_atoll"})
+
+		createLaunchpad("Mars")
+	}
+
+
+	if !DB.HasTable(&Booking{}) {
+		DB.CreateTable(&Booking{})
+	}
+
 }
 
 func createDestination(name string) {
-	var newDestination Destination
-	newDestination.Name = name
-	DB.Create(&newDestination)
-	//return nil
+	DB.Create(&Destination{Name: name})
+}
+
+func createLaunchpad(spacexSiteId string) {
 }

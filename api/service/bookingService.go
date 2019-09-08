@@ -5,17 +5,23 @@ import (
 	"log"
 )
 
+// TODO
+// join commented out as not really useful, see the comment in entities.go
 func FindAllBookings() interface{} {
 	var bookings []database.Booking
-	database.DB.Find(&bookings)
+	database.DB.
+		//Joins("JOIN launchpads l ON l.id = launchpad_id").
+		//Joins("JOIN destinations d ON d.id = destination_id").
+		Find(&bookings)
 	return bookings
 }
 
+var validators = []BookingValidator{
+	&destinationValidator{},
+	&launchpadAvailabilityValidator{},
+	&overlapWithSpaceXValidator{},
+}
 
-// TODO I guess there must be a better way to more "inline" initialization of validator instances
-var d destinationValidator
-var l launchpadAvailabilityValidator
-var validators = []BookingValidator{&d, &l}
 
 func TryToCreateBooking(newBooking *database.Booking) []string {
 
@@ -30,5 +36,3 @@ func TryToCreateBooking(newBooking *database.Booking) []string {
 	database.DB.Create(&newBooking)
 	return nil
 }
-
-
