@@ -9,17 +9,32 @@ type BookingValidator interface {
 	isValid(booking database.Booking) string
 }
 
-type DestinationValidator struct{}
+type destinationValidator struct{}
 
-func (d *DestinationValidator) isValid(booking database.Booking) string {
+func (v *destinationValidator) isValid(booking database.Booking) string {
 
 	booking.LaunchDate.Weekday()
 	weekdayNo := (uint(booking.LaunchDate.Weekday()) + 6) % 7
 
 	allowedDestination := calcDestinationForDayAndLaunchpad(weekdayNo, booking.LaunchpadId)
-	if allowedDestination == booking.Destination.Id {
+	if allowedDestination != booking.Destination.Id {
+		return fmt.Sprintf("Destinations mismatch, requested destination #%v while for day #%v and pad #%v only destination #%v is allowed", booking.Destination.Id, weekdayNo, booking.LaunchpadId, allowedDestination)
+	} else {
 		return ""
 	}
-	return fmt.Sprintf("Destinations mismatch, requested destination #%d while for day #%d and pad #%d only destination #%d is allowed", booking.Destination.Id, weekdayNo, booking.LaunchpadId, allowedDestination)
 
+}
+
+type launchpadAvailabilityValidator struct{}
+
+func (v *launchpadAvailabilityValidator) isValid(booking database.Booking) string {
+
+	var bookings []database.Booking
+	database.DB.Where("date(launch_date) = date(?) and launchpad_id = ?", booking.LaunchDate, booking.LaunchpadId).Find(&bookings)
+
+	if len(bookings)>0 {
+		return fmt.Sprintf("Launchpad #%d for day %v is not available", booking.LaunchpadId, booking.LaunchDate)
+	}
+
+	return ""
 }

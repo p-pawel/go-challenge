@@ -32,8 +32,8 @@ func PostBooking(w http.ResponseWriter, r *http.Request) {
 	}
 
 	{
-		err, errors := service.TryToCreateBooking(&newBooking)
-		if err != nil {
+		errors := service.TryToCreateBooking(&newBooking)
+		if len(errors)>0 {
 			w.WriteHeader(http.StatusUnprocessableEntity)
 
 			w.Header().Add("Content-Type", "application/json")
