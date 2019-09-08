@@ -1,6 +1,17 @@
 # go-challenge
 
 
+This project contains a solution to one recruitment challenge. Out of consideration of the possible parallel recruitment process I am not quoting requirements. 
+
+## Execution
+
+Run:
+```
+docker-compose up --build
+```
+and API should be available at port 3000, e.g. http://localhost:3000/booking
+
+
 ## Test data available upon startup
 
 ### Destinations
@@ -34,9 +45,9 @@
 
 ## Examples
 
+### Create booking
 
-### Happy scenario
-
+#### Happy scenario
 
 URL:
 ```
@@ -71,7 +82,7 @@ Response (status code 200 - OK):
 
 
  
-### Trip destination not matching destinations for given launchpad for given day
+#### Trip destination not matching destinations for given launchpad for given day
 
 
 URL:
@@ -98,8 +109,7 @@ Response (status code 422 - unprocessable entity):
 
 
 
-### Trip overlaps with another booking
-
+#### Trip overlaps with another booking
 
 URL:
 ```
@@ -123,7 +133,8 @@ Response (status code 422 - unprocessable entity):
 ["Launchpad #5 for day 2019-09-08 21:40:00 +0200 CEST is not available"]
 ```
 
-### Trip overlaps with SpaceX launches
+
+#### Trip overlaps with SpaceX launches
 
 
 URL:
@@ -147,3 +158,45 @@ Response (status code 422 - unprocessable entity):
 ```
 ["Launchpad #5 for day 2019-10-17 21:10:00 +0200 CEST is used by SpaceX"]
 ```
+
+### Retrieve all bookings
+URL:
+```
+GET http://localhost:3000/booking
+```
+
+Response (status code 422 - unprocessable entity):
+```
+[
+    {
+        "Id": 20,
+        "FirstName": "John",
+        "LastName": "Doe",
+        "Gender": "M",
+        "Birthday": "",
+        "LaunchpadId": 5,
+        "DestinationId": 5,
+        "LaunchDate": "2019-10-16T19:10:00Z"
+    },
+    {
+        "Id": 21,
+        "FirstName": "John",
+        "LastName": "Doe",
+        "Gender": "M",
+        "Birthday": "",
+        "LaunchpadId": 5,
+        "DestinationId": 2,
+        "LaunchDate": "2019-09-08T19:40:00Z"
+    }
+]
+```
+
+### Delete booking
+URL:
+```
+DELETE http://localhost:3000/booking/20
+```
+
+Response (status code 202 - accepted)
+
+
