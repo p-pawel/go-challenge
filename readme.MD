@@ -165,7 +165,7 @@ URL:
 GET http://localhost:3000/booking
 ```
 
-Response (status code 422 - unprocessable entity):
+Response (status code 200 - OK):
 ```
 [
     {
